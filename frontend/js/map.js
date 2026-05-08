@@ -4,7 +4,7 @@ let directionsService = null;
 let directionsRenderer = null;
 let busStops = [];
 let routes = [];
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://my-backend-p.onrender.com/api';
 
 function initMap() {
   const coimbatore = { lat: 11.0168, lng: 76.9558 };

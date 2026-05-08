@@ -1,6 +1,6 @@
 let map;
 let marker;
-const socket = io('http://localhost:5000'); // Change this to your server URL in production
+const socket = io('https://my-backend-p.onrender.com'); // Change this to your server URL in production
 
 const busIdEl = document.getElementById('bus-id');
 const coordsEl = document.getElementById('coords');
@@ -26,7 +26,7 @@ function initMap() {
 
 async function fetchLatestLocation() {
   try {
-    const response = await fetch('http://localhost:5000/api/gps/latest');
+    const response = await fetch('https://my-backend-p.onrender.com/api/gps/latest');
     const result = await response.json();
     
     if (result.success && result.data) {
