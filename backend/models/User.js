@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+// If no MONGO_URI, export the mock model instead
+if (!process.env.MONGO_URI || process.env.MONGO_URI === 'undefined') {
+  module.exports = require('../utils/jsonDb').User;
+  return;
+}
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,

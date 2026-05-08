@@ -1,22 +1,15 @@
 const mongoose = require('mongoose');
 
-const GpsSchema = new mongoose.Schema({
-  busId: {
-    type: String,
-    default: 'BUS-001'
-  },
-  latitude: {
-    type: Number,
-    required: true
-  },
-  longitude: {
-    type: Number,
-    required: true
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
-  }
+if (!process.env.MONGO_URI || process.env.MONGO_URI === 'undefined') {
+  module.exports = require('../utils/jsonDb').Gps;
+  return;
+}
+
+const gpsSchema = new mongoose.Schema({
+  busId: { type: String, required: true },
+  lat: { type: Number, required: true },
+  lng: { type: Number, required: true },
+  timestamp: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Gps', GpsSchema);
+module.exports = mongoose.model('Gps', gpsSchema);
