@@ -32,35 +32,75 @@ const writeData = (collection, data) => {
 class MockModel {
   constructor(collection) {
     this.collection = collection;
+    this.currentQuery = null;
   }
 
-  async find(query = {}) {
+  // Chainable methods
+  select(fields) { return this; }
+  populate(fields) { return this; }
+  sort(fields) { return this; }
+
+  // This allows the class to be "awaited" like a promise
+  async then(resolve, reject) {
+    try {
+      const result = await this.execute();
+      resolve(result);
+    } catch (err) {
+      reject(err);
+    }
+  }
+
+  async execute() {
+    if (!this.currentQuery) return null;
+    
+    const { type, query, payload, id } = this.currentQuery;
+    this.currentQuery = null; // Reset for next call
+
     let data = readData(this.collection);
-    Object.keys(query).forEach(key => {
-      if (typeof query[key] !== 'object') {
-        data = data.filter(item => item[key] === query[key]);
+
+    if (type === 'find') {
+      Object.keys(query).forEach(key => {
+        if (typeof query[key] !== 'object') {
+          data = data.filter(item => item[key] === query[key]);
+        }
+      });
+      return data;
+    }
+
+    if (type === 'findOne') {
+      const item = data.find(item => {
+        return Object.keys(query).every(key => item[key] === query[key]);
+      });
+      if (item && this.collection === 'users') {
+        item.comparePassword = async (pass) => await bcrypt.compare(pass, item.password);
       }
-    });
-    return data;
+      return item;
+    }
+
+    if (type === 'findById') {
+      const item = data.find(item => item._id === id || item.id === id);
+      if (item && this.collection === 'users') {
+        item.comparePassword = async (pass) => await bcrypt.compare(pass, item.password);
+      }
+      return item;
+    }
+
+    return null;
   }
 
-  async findOne(query) {
-    const data = await this.find(query);
-    const item = data[0] || null;
-    if (item && this.collection === 'users') {
-      item.comparePassword = async (pass) => await bcrypt.compare(pass, item.password);
-      item.select = () => item; // Mock mongoose select
-    }
-    return item;
+  find(query = {}) {
+    this.currentQuery = { type: 'find', query };
+    return this;
   }
 
-  async findById(id) {
-    const data = readData(this.collection);
-    const item = data.find(item => item._id === id || item.id === id) || null;
-    if (item && this.collection === 'users') {
-      item.comparePassword = async (pass) => await bcrypt.compare(pass, item.password);
-    }
-    return item;
+  findOne(query = {}) {
+    this.currentQuery = { type: 'findOne', query };
+    return this;
+  }
+
+  findById(id) {
+    this.currentQuery = { type: 'findById', id };
+    return this;
   }
 
   async create(payload) {
@@ -82,6 +122,16 @@ class MockModel {
     return newItem;
   }
 
+  async findByIdAndUpdate(id, update) {
+    const data = readData(this.collection);
+    const index = data.findIndex(item => item._id === id || item.id === id);
+    if (index === -1) return null;
+    
+    data[index] = { ...data[index], ...update, updatedAt: new Date().toISOString() };
+    writeData(this.collection, data);
+    return data[index];
+  }
+
   async countDocuments() {
     return (readData(this.collection)).length;
   }
@@ -96,10 +146,6 @@ class MockModel {
     writeData(this.collection, [...data, ...newItems]);
     return newItems;
   }
-
-  // Support for .populate() mock
-  populate(field) { return this; }
-  sort(field) { return this; }
 }
 
 module.exports = {
