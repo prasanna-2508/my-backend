@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find My Bus - Coimbatore Bus Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚌</text></svg>">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚌</div>
+        <div class="logo-text">Find My <span>Bus</span></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="routes.html">Routes</a>
+        <a href="nearby.html">Nearby</a>
+        <a href="dashboard.html">Dashboard</a>
+      </div>
+      <div class="nav-user" id="nav-user">
+        <a href="login.html" class="btn-nav btn-nav-outline">Login</a>
+        <a href="register.html" class="btn-nav btn-nav-primary">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="animate-fadeInUp">Find Your Bus <span>Anytime</span>, Anywhere in Coimbatore</h1>
+        <p class="animate-fadeInUp delay-1">Real-time bus tracking, route planning, and nearby stop discovery for Coimbatore city buses. Travel smarter with TNSTC.</p>
+        <div class="hero-buttons animate-fadeInUp delay-2">
+          <a href="routes.html" class="btn-hero btn-hero-primary">🔍 Find Routes</a>
+          <a href="nearby.html" class="btn-hero btn-hero-secondary">📍 Find Nearby Stops</a>
+        </div>
+        <div class="hero-stats animate-fadeInUp delay-3">
+          <div class="stat-item"><div class="stat-number">25+</div><div class="stat-label">Bus Stops</div></div>
+          <div class="stat-item"><div class="stat-number">12+</div><div class="stat-label">Routes</div></div>
+          <div class="stat-item"><div class="stat-number">24/7</div><div class="stat-label">Tracking</div></div>
+        </div>
+      </div>
+      <div class="hero-visual animate-fadeInUp delay-2">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <span class="route-badge">Route 27A</span>
+            <div class="route-info"><h3>Gandhipuram → Thondamuthur</h3><p>TNSTC Coimbatore</p></div>
+          </div>
+          <div class="route-stops">
+            <div class="stop-item"><div class="stop-dot"></div><span class="stop-name">Gandhipuram Bus Stand</span><span class="stop-time">Start</span></div>
+            <div class="stop-item"><div class="stop-dot"></div><span class="stop-name">Town Hall</span><span class="stop-time">5 min</span></div>
+            <div class="stop-item"><div class="stop-dot"></div><span class="stop-name">Perur</span><span class="stop-time">20 min</span></div>
+            <div class="stop-item"><div class="stop-dot"></div><span class="stop-name">Kovaipudur</span><span class="stop-time">35 min</span></div>
+            <div class="stop-item"><div class="stop-dot end"></div><span class="stop-name">Thondamuthur</span><span class="stop-time">45 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white);">
+    <div class="section-header">
+      <span class="section-tag">Features</span>
+      <h2 class="section-title">Why Choose Find My Bus?</h2>
+      <p class="section-subtitle">Everything you need for hassle-free bus travel in Coimbatore</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon orange">🗺️</div><h3>Real Google Maps</h3><p>Interactive maps with real bus stop locations, routes, and live navigation powered by Google Maps API.</p></div>
+      <div class="feature-card"><div class="feature-icon blue">🔍</div><h3>Smart Route Search</h3><p>Find the best bus route between any two stops. Get distance, time, fare, and frequency info instantly.</p></div>
+      <div class="feature-card"><div class="feature-icon green">📍</div><h3>Nearby Stops</h3><p>Discover bus stops near your current location with GPS-based distance calculation.</p></div>
+      <div class="feature-card"><div class="feature-icon purple">🔐</div><h3>Secure Account</h3><p>Register and login with email/password or OTP-based phone login. Forgot password recovery included.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-tag">Live Map</span>
+      <h2 class="section-title">Explore Coimbatore Bus Network</h2>
+      <p class="section-subtitle">All major bus stops and routes on an interactive map</p>
+    </div>
+    <div class="map-section">
+      <div class="map-header">
+        <h3 class="card-title">🚌 Coimbatore Bus Stops</h3>
+        <div class="map-controls">
+          <button class="map-btn active" onclick="showAllStops()">All Stops</button>
+          <button class="map-btn" onclick="showMyLocation()">📍 My Location</button>
+        </div>
+      </div>
+      <div id="map" style="height:500px;"></div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white);">
+    <div class="section-header">
+      <span class="section-tag">Popular</span>
+      <h2 class="section-title">Most Traveled Routes</h2>
+      <p class="section-subtitle">Frequently used bus routes across Coimbatore</p>
+    </div>
+    <div class="routes-list" id="popular-routes">
+      <div class="route-card">
+        <div class="route-card-header"><span class="route-number">Route 27A</span><span class="route-operator">TNSTC</span></div>
+        <div class="route-path"><span class="route-from">Gandhipuram</span><span class="route-arrow">→</span><span class="route-to">Thondamuthur</span><span class="route-via">via Town Hall, Perur</span></div>
+        <div class="route-details"><div class="route-detail"><span class="route-detail-icon">📏</span><span>18.5 km</span></div><div class="route-detail"><span class="route-detail-icon">⏱️</span><span>45 mins</span></div><div class="route-detail"><span class="route-detail-icon">💰</span><span>₹25</span></div></div>
+      </div>
+      <div class="route-card">
+        <div class="route-card-header"><span class="route-number">Route 95</span><span class="route-operator">TNSTC</span></div>
+        <div class="route-path"><span class="route-from">Gandhipuram</span><span class="route-arrow">→</span><span class="route-to">Singanallur</span><span class="route-via">via Peelamedu, Hope College</span></div>
+        <div class="route-details"><div class="route-detail"><span class="route-detail-icon">📏</span><span>8.2 km</span></div><div class="route-detail"><span class="route-detail-icon">⏱️</span><span>25 mins</span></div><div class="route-detail"><span class="route-detail-icon">💰</span><span>₹15</span></div></div>
+      </div>
+      <div class="route-card">
+        <div class="route-card-header"><span class="route-number">Route 30</span><span class="route-operator">TNSTC</span></div>
+        <div class="route-path"><span class="route-from">Ukkadam</span><span class="route-arrow">→</span><span class="route-to">Sulur</span><span class="route-via">via Town Hall, Ondipudur</span></div>
+        <div class="route-details"><div class="route-detail"><span class="route-detail-icon">📏</span><span>22.0 km</span></div><div class="route-detail"><span class="route-detail-icon">⏱️</span><span>55 mins</span></div><div class="route-detail"><span class="route-detail-icon">💰</span><span>₹30</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">Find My <span>Bus</span></div>
+      <p class="footer-text">Your smart companion for Coimbatore city bus travel</p>
+      <div class="footer-links"><a href="index.html">Home</a><a href="routes.html">Routes</a><a href="nearby.html">Nearby</a><a href="dashboard.html">Dashboard</a></div>
+      <div class="footer-bottom">© 2025 Find My Bus. Built for Coimbatore.</div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/map.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+</body>
+</html>

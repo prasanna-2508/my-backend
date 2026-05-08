@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Bus Tracking - Find My Bus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📍</text></svg>">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+  <style>
+    .tracking-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .tracking-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .tracking-header {
+      padding: 1.5rem;
+      background: var(--primary-color, #ff6b35);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4caf50;
+      box-shadow: 0 0 10px #4caf50;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+    .info-panel {
+      padding: 1rem;
+      border-top: 1px solid #eee;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .info-label {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 0.2rem;
+    }
+    .info-value {
+      font-weight: 600;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🚌</div>
+        <div class="logo-text">Find My <span>Bus</span></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="routes.html">Routes</a>
+        <a href="nearby.html">Nearby</a>
+        <a href="tracking.html" class="active">Live Tracking</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="tracking-container">
+    <div class="tracking-card">
+      <div class="tracking-header">
+        <div>
+          <h2 style="margin:0">Live Bus Location</h2>
+          <p style="margin:0; opacity:0.8">Real-time GPS tracking for Coimbatore Bus</p>
+        </div>
+        <div class="status-badge">
+          <div class="status-dot"></div>
+          LIVE UPDATING
+        </div>
+      </div>
+      
+      <div id="map"></div>
+      
+      <div class="info-panel">
+        <div class="info-item">
+          <span class="info-label">Bus ID</span>
+          <span class="info-value" id="bus-id">BUS-001</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Current Lat/Lng</span>
+          <span class="info-value" id="coords">Waiting for data...</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Last Updated</span>
+          <span class="info-value" id="last-updated">Never</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Status</span>
+          <span class="info-value" id="connection-status" style="color: #f44336;">Connecting to server...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">Find My <span>Bus</span></div>
+      <p class="footer-bottom">© 2025 Find My Bus. Built for Coimbatore.</p>
+    </div>
+  </footer>
+
+  <script src="js/tracking.js"></script>
+</body>
+</html>

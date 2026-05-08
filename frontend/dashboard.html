@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Find My Bus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚌</text></svg>">
+</head>
+<body class="dashboard">
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="logo"><div class="logo-icon">🚌</div><div class="logo-text">Find My <span>Bus</span></div></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="routes.html">Routes</a><a href="nearby.html">Nearby</a><a href="dashboard.html" class="active">Dashboard</a></div>
+      <div class="nav-user" id="nav-user"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-header">
+    <div class="dashboard-header-content">
+      <div><h1 id="welcome-text">Welcome back! 👋</h1><p>Here's your travel overview for today</p></div>
+      <a href="routes.html" class="btn-hero btn-hero-primary" style="padding:0.75rem 1.5rem;font-size:0.9rem;">🔍 Find a Route</a>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-card-icon orange">🚌</div><div class="stat-card-info"><h4>25+</h4><p>Bus Stops</p></div></div>
+      <div class="stat-card"><div class="stat-card-icon blue">🛣️</div><div class="stat-card-info"><h4>12+</h4><p>Active Routes</p></div></div>
+      <div class="stat-card"><div class="stat-card-icon green">⏱️</div><div class="stat-card-info"><h4>24/7</h4><p>Live Tracking</p></div></div>
+      <div class="stat-card"><div class="stat-card-icon purple">📍</div><div class="stat-card-info"><h4>GPS</h4><p>Nearby Finder</p></div></div>
+    </div>
+
+    <div class="map-section" style="margin-bottom:2rem;">
+      <div class="map-header"><h3 class="card-title">🗺️ Coimbatore Bus Network Map</h3><div class="map-controls"><button class="map-btn active" onclick="showAllStops()">All Stops</button><button class="map-btn" onclick="showMyLocation()">📍 My Location</button><button class="map-btn" onclick="clearRoute()">Clear Route</button></div></div>
+      <div id="map"></div>
+    </div>
+
+    <div class="features-grid" style="margin-bottom:2rem;">
+      <a href="routes.html" class="feature-card" style="text-decoration:none;color:inherit;"><div class="feature-icon orange">🔍</div><h3>Search Routes</h3><p>Find the best bus route between any two stops in Coimbatore with real-time info.</p></a>
+      <a href="nearby.html" class="feature-card" style="text-decoration:none;color:inherit;"><div class="feature-icon green">📍</div><h3>Find Nearby</h3><p>Discover bus stops near your current location using GPS.</p></a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content"><div class="footer-logo">Find My <span>Bus</span></div><p class="footer-text">Your smart companion for Coimbatore city bus travel</p><div class="footer-links"><a href="index.html">Home</a><a href="routes.html">Routes</a><a href="nearby.html">Nearby</a><a href="dashboard.html">Dashboard</a></div><div class="footer-bottom">© 2025 Find My Bus. Built for Coimbatore.</div></div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/map.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => { if (!requireAuth()) return; const user = JSON.parse(localStorage.getItem('user')); if (user) document.getElementById('welcome-text').textContent = `Welcome back, ${user.name}! 👋`; });</script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+</body>
+</html>

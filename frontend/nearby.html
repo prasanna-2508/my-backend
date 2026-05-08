@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nearby Stops - Find My Bus</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚌</text></svg>">
+</head>
+<body class="dashboard">
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="index.html" class="logo"><div class="logo-icon">🚌</div><div class="logo-text">Find My <span>Bus</span></div></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="routes.html">Routes</a><a href="nearby.html" class="active">Nearby</a><a href="dashboard.html">Dashboard</a></div>
+      <div class="nav-user" id="nav-user"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-header">
+    <div class="dashboard-header-content"><div><h1>📍 Nearby Bus Stops</h1><p>Find bus stops near your current location</p></div></div>
+  </div>
+
+  <div class="dashboard-body">
+    <div class="nearby-section" style="margin-bottom:2rem;">
+      <h3 style="margin-bottom:1rem;font-size:1.3rem;font-weight:700;color:var(--dark);">Find Stops Near You</h3>
+      <p style="color:var(--gray);margin-bottom:1.5rem;">Click the button below to use your GPS location and discover the nearest bus stops within 5km.</p>
+      <button id="locate-btn" class="location-btn">📍 Use My Location</button>
+      <div id="alert-container"></div>
+      <div id="nearby-stops-list">
+        <div style="text-align:center;padding:3rem;color:#6C757D;"><div style="font-size:3rem;margin-bottom:1rem;">📍</div><h3>Find Nearby Stops</h3><p>Click "Use My Location" to discover bus stops near you.</p></div>
+      </div>
+    </div>
+
+    <div class="map-section">
+      <div class="map-header"><h3 class="card-title">🗺️ Stops Map</h3><div class="map-controls"><button class="map-btn active" onclick="showAllStops()">All Stops</button><button class="map-btn" onclick="showMyLocation()">📍 My Location</button></div></div>
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content"><div class="footer-logo">Find My <span>Bus</span></div><p class="footer-text">Your smart companion for Coimbatore city bus travel</p><div class="footer-links"><a href="index.html">Home</a><a href="routes.html">Routes</a><a href="nearby.html">Nearby</a><a href="dashboard.html">Dashboard</a></div><div class="footer-bottom">© 2025 Find My Bus. Built for Coimbatore.</div></div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/nearby.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+</body>
+</html>
